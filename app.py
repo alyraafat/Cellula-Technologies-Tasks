@@ -1,10 +1,11 @@
 import streamlit as st
 import torch
+from torchvision import transforms
 from PIL import Image
 
 def deploy(model_weights_path: str, im_target_shape: tuple):
-    model = torch.load(model_weights_path)
-    transforms = transforms.Compose([
+    model = torch.load(model_weights_path, map_location=torch.device('cpu'))
+    transform = transforms.Compose([
         transforms.Resize(im_target_shape),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
@@ -19,7 +20,7 @@ def deploy(model_weights_path: str, im_target_shape: tuple):
         st.image(image, caption='Uploaded Image.', use_column_width=True)
 
         # Preprocess the image
-        img_tensor = transforms(image).unsqueeze(0)
+        img_tensor = transform(image).unsqueeze(0)
 
         # Make prediction
         with torch.no_grad():
