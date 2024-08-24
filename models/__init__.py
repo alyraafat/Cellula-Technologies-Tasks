@@ -1,1 +1,0 @@
-from .resnet_finetuned import create_resnet
