@@ -1,5 +1,6 @@
 *.zip
 *.pth
+!/models_weights/resnet18/best_model.pth
 /Teeth DataSet/
 /model_weights/
 /__pycache__/
