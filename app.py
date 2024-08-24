@@ -28,3 +28,6 @@ def deploy(model_weights_path: str, im_target_shape: tuple):
         
         # Display the prediction
         st.write(f"Predicted class: {predicted.item()}")
+
+if __name__ == '__main__':
+    deploy('./models_weights/best_model.pth', (224, 224))
