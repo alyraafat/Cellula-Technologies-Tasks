@@ -4,6 +4,7 @@ from torchvision import transforms
 from PIL import Image
 
 def deploy(model_weights_path: str, im_target_shape: tuple):
+    class_names = ['CaS', 'CoS', 'Gum', 'MC', 'OC', 'OLP', 'OT']
     model = torch.load(model_weights_path, map_location=torch.device('cpu'))
     transform = transforms.Compose([
         transforms.Resize(im_target_shape),
@@ -25,10 +26,11 @@ def deploy(model_weights_path: str, im_target_shape: tuple):
         # Make prediction
         with torch.no_grad():
             outputs = model(img_tensor)
-            _, predicted = torch.argmax(outputs, dim=-1)
+            predicted = torch.argmax(outputs, dim=-1)
         
         # Display the prediction
-        st.write(f"Predicted class: {predicted.item()}")
+        pred_class = class_names[predicted.item()]
+        st.write(f"Predicted class: {pred_class}")
 
 if __name__ == '__main__':
     deploy('./models_weights/resnet18/best_model.pth', (224, 224))
