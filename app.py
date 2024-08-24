@@ -30,4 +30,4 @@ def deploy(model_weights_path: str, im_target_shape: tuple):
         st.write(f"Predicted class: {predicted.item()}")
 
 if __name__ == '__main__':
-    deploy('./models_weights/best_model.pth', (224, 224))
+    deploy('./models_weights/resnet18/best_model.pth', (224, 224))
