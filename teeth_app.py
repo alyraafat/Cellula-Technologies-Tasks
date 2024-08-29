@@ -44,5 +44,5 @@ def deploy(model_weights_path: str, im_target_shape: tuple):
 
 if __name__ == '__main__':
     print(os.getcwd())
-    model_path = os.path.join('.','models_weights', 'resnet18', 'best_model.pth')
+    model_path = os.path.join('.','Teeth_Classification','models_weights', 'resnet18', 'best_model.pth')
     deploy(model_path, (224, 224))
