@@ -2,10 +2,11 @@ import streamlit as st
 import torch
 from torchvision import transforms
 from PIL import Image
+import os
 
 def deploy(model_weights_path: str, im_target_shape: tuple):
     class_names = ['CaS', 'CoS', 'Gum', 'MC', 'OC', 'OLP', 'OT']
-    model = torch.load(model_weights_path, map_location=torch.device('cpu'))
+    model = torch.load(model_weights_path, map_location=torch.device('cpu'), weights_only=False)
     transform = transforms.Compose([
         transforms.Resize(im_target_shape),
         transforms.ToTensor(),
@@ -33,4 +34,5 @@ def deploy(model_weights_path: str, im_target_shape: tuple):
         st.write(f"Predicted class: {pred_class}")
 
 if __name__ == '__main__':
-    deploy('./models_weights/resnet18/best_model.pth', (224, 224))
+    model_path = os.path.join('models_weights', 'resnet18', 'best_model.pth')
+    deploy(model_path, (224, 224))
