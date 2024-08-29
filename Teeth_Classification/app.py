@@ -9,7 +9,7 @@ def deploy(model_weights_path: str, im_target_shape: tuple):
     # model = torch.load(model_weights_path, map_location=torch.device('cpu'), weights_only=False)
     try:
         model = torch.load(model_weights_path, map_location=torch.device('cpu'), weights_only=False)
-        st.write("Model loaded successfully.")
+        # st.write("Model loaded successfully.")
     except Exception as e:
         st.error(f"Failed to load model: {e}")
         return
