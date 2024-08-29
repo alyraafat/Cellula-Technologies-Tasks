@@ -34,5 +34,6 @@ def deploy(model_weights_path: str, im_target_shape: tuple):
         st.write(f"Predicted class: {pred_class}")
 
 if __name__ == '__main__':
+    print(os.getcwd())
     model_path = os.path.join('.','models_weights', 'resnet18', 'best_model.pth')
     deploy(model_path, (224, 224))
