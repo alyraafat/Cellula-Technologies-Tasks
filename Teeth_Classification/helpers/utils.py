@@ -1,6 +1,8 @@
 from sklearn.metrics import precision_score, recall_score, f1_score
 import os
 from typing import List, Tuple
+import matplotlib.pyplot as plt
+
 
 def calculate_metrics(y_true: List[int], y_pred: List[int]) -> Tuple[float]:
     precision = precision_score(y_true, y_pred, average='weighted')
@@ -29,3 +31,41 @@ def show_counts(train_dir: str) -> Tuple[dict, dict, dict]:
     class_weights_norm = {class_name: weight / sum_of_weights for class_name, weight in class_weights.items()}
 
     return class_weights, class_weights_norm, class_counts
+
+
+import matplotlib.pyplot as plt
+
+def plot_training_history(history):
+    """
+    Plots the training and validation loss and accuracy over epochs.
+
+    Parameters:
+    history (dict): A dictionary containing 'loss', 'val_loss', 'accuracy', and 'val_accuracy'.
+                    Each key should map to a list of values (one per epoch).
+    """
+
+    epochs = range(1, len(history['train_loss']) + 1)
+
+    # Plotting Loss
+    plt.figure(figsize=(14, 5))
+    
+    plt.subplot(1, 2, 1)
+    plt.plot(epochs, history['train_loss'], 'bo-', label='Training Loss')
+    plt.plot(epochs, history['val_loss'], 'ro-', label='Validation Loss')
+    plt.title('Training and Validation Loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend()
+
+    # Plotting Accuracy
+    plt.subplot(1, 2, 2)
+    plt.plot(epochs, history['train_accuracy'], 'bo-', label='Training Accuracy')
+    plt.plot(epochs, history['val_accuracy'], 'ro-', label='Validation Accuracy')
+    plt.title('Training and Validation Accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
+    plt.legend()
+
+    plt.show()
+
+

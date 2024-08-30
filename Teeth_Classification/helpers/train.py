@@ -18,7 +18,9 @@ def train(
         start_epoch: int=0, 
         scheduler: torch.optim.lr_scheduler=None, 
         new_lr: float=None,
-        models_weights_path: str='../models_weights/best_model.pth'
+        models_weights_path: str='../models_weights/best_model.pth',
+        prev_best_min_loss: float=float('inf'),
+        prev_history: dict=None
     ) -> None:
 
     if device == "":
@@ -29,7 +31,10 @@ def train(
     if new_lr is not None:
         for param_group in optimizer.param_groups:
             param_group['lr'] = new_lr
-
+    train_losses = []
+    val_losses = []
+    train_accuracies = []
+    val_accuracies = []
     for epoch in range(start_epoch, num_epochs):
         print(f'Epoch {epoch+1}/{num_epochs}')
         print('-' * 10)
@@ -59,10 +64,13 @@ def train(
 
         avg_train_loss = running_loss / len(train_loader)
 
+        train_losses.append(avg_train_loss)
+
         train_accuracy, train_precision, train_recall, train_f1 = calculate_metrics(np.array(all_labels), np.array(all_predictions))
         print(f'Train Loss: {avg_train_loss:.4f}, Accuracy: {train_accuracy:.2f}%, '
               f'Precision: {train_precision:.4f}, Recall: {train_recall:.4f}, F1 Score: {train_f1:.4f}')
 
+        train_accuracies.append(train_accuracy)
         # Validation phase
         avg_val_loss, val_accuracy, val_precision, val_recall, val_f1 = evaluate(val_loader, model, criterion)
 
@@ -70,9 +78,24 @@ def train(
               f'Precision: {val_precision:.4f}, Recall: {val_recall:.4f}, F1 Score: {val_f1:.4f}')
         print("-"*50)
 
+        val_losses.append(avg_val_loss)
+        val_accuracies.append(val_accuracy)
         # Save the best model using the callback
-        save_best_model(model, avg_val_loss)
+        save_best_model(model, avg_val_loss, prev_best_min_loss)
 
         # Step the scheduler if it exists
         if scheduler is not None:
             scheduler.step(avg_val_loss if isinstance(scheduler, torch.optim.lr_scheduler.ReduceLROnPlateau) else None)
+    print('Finished Training')
+    history = {
+        'train_loss': train_losses,
+        'val_loss': val_losses,
+        'train_accuracy': train_accuracies,
+        'val_accuracy': val_accuracies,
+        "prev_best_min_loss": save_best_model.best_val_loss
+    }
+    if prev_history is not None:
+        for key in prev_history.keys():
+            if key != 'prev_best_min_loss':
+                history[key] =  prev_history[key] + history[key]
+    return history
