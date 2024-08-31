@@ -91,3 +91,4 @@ class SegmentationTransforms:
         image = cv2.warpAffine(image, M, (w, h), flags=cv2.INTER_NEAREST)
         mask = cv2.warpAffine(mask, M, (w, h), flags=cv2.INTER_NEAREST)
         return image, mask
+
