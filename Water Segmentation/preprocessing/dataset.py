@@ -15,7 +15,7 @@ class WaterSegDataset(Dataset):
                  masks_dir: str, 
                  zipped_paths: List[Union[List[str],Tuple[str,str]]], 
                  type: str='train', 
-                 mean_std_path: str='../mean_std.json'):
+                 mean_std_path: str='./mean_std.json'):
         super(WaterSegDataset, self).__init__()
         self.images_dir = images_dir
         self.masks_dir = masks_dir
@@ -43,7 +43,7 @@ class WaterSegDataset(Dataset):
     def __getitem__(self, idx):
         image_path = os.path.join(self.images_dir, self.images_paths[idx])
         mask_path = os.path.join(self.masks_dir, self.masks_paths[idx])
-        print(f'Image path: {image_path}, Mask path: {mask_path}')
+        # print(f'Image path: {image_path}, Mask path: {mask_path}')
         
         image = tiff.imread(image_path)
         mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE).astype(np.float32)

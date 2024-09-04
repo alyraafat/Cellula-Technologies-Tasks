@@ -1,3 +1,4 @@
 *.zip
 /satellite images/
 */__pycache__/
+/models_weights/
