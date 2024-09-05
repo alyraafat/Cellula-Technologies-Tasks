@@ -185,7 +185,7 @@ def visualize_predictions(model: torch.nn.Module, test_dataset: torch.utils.data
         plt.subplot(1, 3, 1)
         plt.imshow(img_view[:,:,[3,2,1]], cmap='gray')
         plt.axis('off')
-        plt.title('Prediction')
+        plt.title('Image')
         plt.subplot(1, 3, 2)
         plt.imshow(mask.squeeze().cpu().numpy(), cmap='gray')
         plt.axis('off')
