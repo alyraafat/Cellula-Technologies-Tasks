@@ -1,0 +1,21 @@
+<!-- templates/result.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Segmentation Result</title>
+  </head>
+  <body>
+    <h1>Segmentation Result</h1>
+    <div>
+      <h2>Original Image (RGB):</h2>
+      <img src="{{ original_image }}" alt="Original RGB Image" width="400" />
+    </div>
+    <div>
+      <h2>Segmentation Mask:</h2>
+      <img src="{{ result_image }}" alt="Segmentation Mask" width="400" />
+    </div>
+    <br />
+    <a href="{{ url_for('upload_image') }}">Try Another Image</a>
+  </body>
+</html>
