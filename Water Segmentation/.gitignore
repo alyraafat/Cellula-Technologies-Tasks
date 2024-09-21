@@ -2,3 +2,4 @@
 /satellite images/
 */__pycache__/
 /models_weights/
+/server/static/
